@@ -336,7 +336,7 @@ $result = mysqli_query($conn, $sql);
 
 
 
-                <div class="relative md:mx-8 mt-4 overflow-x-auto">
+                <div class="relative md:mx-8 mt-4 overflow-x-auto " style="width: 1290px">
                     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
@@ -403,7 +403,7 @@ $result = mysqli_query($conn, $sql);
                 </div>
 
                 <div class="flex justify-center mt-4">
-                    <button type="submit"
+                    <button type="button" id="updateBtn"
                         class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-8 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Update
                         Details</button>
                 </div>
@@ -1484,6 +1484,49 @@ $result = mysqli_query($conn, $sql);
             });
         });
     });
+
+
+
+    $("#updateBtn").on("click", function() {
+    const checkedRowsData = [];
+
+    $("#searchTableTbody input[type='checkbox']").each(function() {
+        if ($(this).is(":checked")) {
+            const row = $(this).closest("tr");
+            const rowData = {
+                id: row.find('input[type="number"]').eq(0).val(),
+                record_no: row.find('input[type="number"]').eq(1).val(),
+                assigned_to: row.find('input[type="text"]').eq(0).val(),
+                query_start_date: row.find('input[type="date"]').eq(0).val(),
+                follow_up: row.find('input[type="text"]').eq(1).val(),
+                followup_reminder_frequency: row.find('input[type="date"]').eq(1).val(),
+                no_of_times: row.find('input[type="number"]').eq(2).val(),
+                query_end_date: row.find('input[type="date"]').eq(1).val(),
+                installation_required: row.find('input[type="text"]').eq(2).val(),
+                tentative_installation: row.find('input[type="date"]').eq(2).val(),
+                tentative_delivery_date: row.find('input[type="date"]').eq(3).val()
+            };
+            checkedRowsData.push(rowData);
+        }
+    });
+
+    $.ajax({
+        url: './phpAJax/leadSerchModify.php', // Replace with your actual PHP script
+        type: 'POST',
+        data: { rows: checkedRowsData },
+        success: function(response) {
+            console.log(response);
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+        }
+    });
+});
+
+
+
+
+
 
 
 

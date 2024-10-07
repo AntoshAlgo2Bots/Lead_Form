@@ -126,9 +126,6 @@ let getUSerDataByUserName = () => {
 
                                 </tr>`)
 
-
-
-
                 });
 
 

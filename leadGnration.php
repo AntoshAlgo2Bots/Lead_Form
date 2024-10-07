@@ -1800,6 +1800,7 @@ $result = mysqli_query($conn, $sql);
     $(document).ready(function () {
         $('#followupSubmitBtn').click(function () {
             var formData = {
+                record_no: $('#record_no').val(),
                 follow_up_start_date: $('#follow_up_start_date').val(),
                 follow_up_end_date: $('#follow_up_end_date').val(),
                 remarks: $('#remarks').val(),

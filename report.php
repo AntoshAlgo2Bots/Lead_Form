@@ -16,7 +16,8 @@ if ($conn->connect_error) {
 
 
 
-$sql = "SELECT * FROM for_office.lead_details_header_form a inner JOIN for_office.lead_details_middle_level_form b ON a.record_no=b.record_no;  ";
+$sql = "SELECT * FROM for_office.lead_details_header_form a inner JOIN for_office.lead_details_middle_level_form b ON
+ a.record_no=b.record_no;";
 
 
 $result = mysqli_query($conn, $sql);
@@ -31,7 +32,8 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
     if (isset($_GET["search_query"])) {
         $query = $_GET["search_query"];
 
-        $sql = "SELECT * FROM  lead_details_header_form  where record_no ='$query' or created_by ='$query' or form_status='$query' ";
+        $sql = "SELECT * FROM for_office.lead_details_header_form a inner JOIN for_office.lead_details_middle_level_form b ON
+ a.record_no=b.record_no where a.record_no ='$query' or a.created_by ='$query' or a.form_status='$query' ";
 
         $result = mysqli_query($conn, $sql);
 
@@ -173,9 +175,9 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
                     </div>
                 </div>
                 <div class="overflow-x-auto">
-                    <table id="dataTable" class="w-full text-sm whitespace-nowrap text-left text-gray-500 dark:text-gray-400">
-                        <thead
-                            class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <table id="dataTable"
+                        class="w-full text-sm whitespace-nowrap text-left text-gray-500 dark:text-gray-400">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
                                 <th scope="col" class="px-6 py-3">S.no </th>
                                 <th scope="col" class="px-6 py-3">Record Number</th>
