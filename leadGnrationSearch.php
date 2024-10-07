@@ -1,6 +1,34 @@
 <?php include('./navbar.php') ?>
 
 
+<?php
+
+$servername = "localhost";
+$username = "root";
+$password = "root";
+$dbname = "for_office";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+echo $_POST['record_no'];
+
+
+
+
+
+$sql = "SELECT * FROM lead_details_middle_level_form";
+
+
+$result = mysqli_query($conn, $sql);
+
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -70,8 +98,8 @@
                             <div>
 
                                 <button type="button" onclick="getUSerDataByUserName()"
-                                    class="p-2.5 ms-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                    <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                    class="p-2.5 mt-3 ms-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                         fill="none" viewBox="0 0 20 20">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                             stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
@@ -196,7 +224,7 @@
     </div>
 
 
-    <div class="mx-10 mt-4">
+    <div class="px-10 mt-4">
         <fieldset class="border-2 border-gray-300 p-5 rounded-lg ">
             <legend class="font-bold">Query Information</legend>
             <div class="flex flex-wrap gap-x-16 md:mx-8">
@@ -285,7 +313,7 @@
                     </label>
                     <input type="date" name="tentative_installation" id="tentative_installation"
                         class="border mb-4 border-gray-900 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-52 p-1.5"
-                        placeholder="" required/>
+                        placeholder="" required />
                 </div>
                 <div>
                     <label for="tentative_delivery_date" class="block mb-2 text-sm font-bold text-gray-900">Tentative
@@ -297,101 +325,92 @@
                 </div>
             </div>
             <div>
-                <button type="submit"
-                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-8 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Disqualified</button>
+                <button type="button" id="addNowBtn"
+                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-8 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 ml-8">Add
+                    Now</button>
             </div>
+
+
+
             <div>
 
 
-                <div class="relative overflow-x-auto md:mx-8 mt-4">
+
+                <div class="relative md:mx-8 mt-4 overflow-x-auto">
                     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
-                                <th scope="col" class="px-6 py-3">
-                                    Serial No
-                                </th>
-                                <th scope="col" class="px-6 py-3">
-                                    Follow up Start Date
-                                </th>
-                                <th scope="col" class="px-6 py-3">
-                                    Follow up End Date
-                                </th>
-                                <th scope="col" class="px-6 py-3">
-                                    Remarks
-                                </th>
-                                <th scope="col" class="px-6 py-3">
-                                    Remind Date
-                                </th>
+                                <th scope="col" class="px-3 py-3"></th>
+                                <th scope="col" class="px-6 py-3">S No</th>
+                                <th scope="col" class="px-6 py-3">Record Number</th>
+                                <th scope="col" class="px-6 py-3">Assigned To</th>
+                                <th scope="col" class="px-6 py-3">Query Start Date</th>
+                                <th scope="col" class="px-6 py-3">Follow Up</th>
+                                <th scope="col" class="px-6 py-3">Follow Up Reminder</th>
+                                <th scope="col" class="px-6 py-3">No of times</th>
+                                <th scope="col" class="px-6 py-3">Query End Date</th>
+                                <th scope="col" class="px-6 py-3">Installation required</th>
+                                <th scope="col" class="px-6 py-3">Tentative Installation Date</th>
+                                <th scope="col" class="px-6 py-3">Tentative Install. Delivery Date</th>
+                                <th scope="col" class="px-6 py-3">Action</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                <th scope="row"
-                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    1
-                                </th>
-                                <td class="px-6 py-4">
-                                    22/02/2025
-                                </td>
-                                <td class="px-6 py-4">
-                                    31/01/2045
-                                </td>
-                                <td class="px-6 py-4">
-                                    abc
-                                </td>
-                                <td class="px-6 py-4">
-                                    31/01/2045
-                                </td>
-                            </tr>
-                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                <th scope="row"
-                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    2
-                                </th>
-                                <td class="px-6 py-4">
-                                    22/02/2025
-                                </td>
-                                <td class="px-6 py-4">
-                                    31/01/2045
-                                </td>
-                                <td class="px-6 py-4">
-                                    abc
-                                </td>
-                                <td class="px-6 py-4">
-                                    31/01/2045
-                                </td>
-                            </tr>
-                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                <th scope="row"
-                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    3
-                                </th>
-                                <td class="px-6 py-4">
-                                    22/02/2025
-                                </td>
-                                <td class="px-6 py-4">
-                                    31/01/2045
-                                </td>
-                                <td class="px-6 py-4">
-                                    jkl
-                                </td>
-                                <td class="px-6 py-4">
-                                    31/01/2045
-                                </td>
-                            </tr>
+                        <tbody id="searchTableTbody">
+
+
+                            <!-- <tr class="border-b dark:border-gray-700">
+                                    <td class="px-6 py-4">
+                                        Serial
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        record_no
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        assigned_to
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        query_start_date
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        follow_up
+                                    </td>
+                                    <td class="px-6 py-4">
+                                       followup_reminder_frequency
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        no_of_times
+                                    </td>
+                                    <td class="px-6 py-4">
+                                       query_end_date
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        installation_required
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        tentative_installation
+                                    </td>
+                                    <td class="px-6 py-4">
+                                       tentative_delivery_date
+                                    </td>
+
+                                </tr> -->
+
+
+
+
                         </tbody>
                     </table>
                 </div>
 
-            </div>
-            <div class="flex justify-center mt-4">
-                <button type="submit"
-                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-8 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Update
-                    Details</button>
+                <div class="flex justify-center mt-4">
+                    <button type="submit"
+                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-8 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Update
+                        Details</button>
+                </div>
             </div>
         </fieldset>
         </form>
-        <fieldset class="p-5 border-2 rounded-md border-gray-300 mt-5">
+        <!-- <fieldset class="p-5 border-2 rounded-md border-gray-300 mt-5">
             <legend class="font-bold">Item Information</legend>
             <div class="flex justify-between flex-wrap">
                 <div class="w-full">
@@ -472,13 +491,6 @@
                             </button>
                         </div>
                     </div>
-                    <!-- <div class="mt-3">
-                        <button data-modal-target="extralarge-modal" data-modal-toggle="extralarge-modal"
-                            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-1.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                            type="button">
-                            Update BOM
-                        </button>
-                    </div> -->
                     <div class="block">
                         <div id="finish_field"></div>
                     </div>
@@ -573,13 +585,13 @@
                         </div>
 
 
-                        <!-- Main modal -->
+   
                         <div id="crud-modal" tabindex="-1" aria-hidden="true"
                             class="overflow-y-auto overflow-x-hidden hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
                             <div class="relative p-4 w-full max-w-md max-h-full">
-                                <!-- Modal content -->
+                            
                                 <div class="relative bg-white  rounded-lg shadow">
-                                    <!-- Modal header -->
+                                
                                     <div
                                         class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                                         <h3 class="text-lg font-semibold text-gray-900 ">
@@ -597,7 +609,7 @@
                                             <span class="sr-only">Close modal</span>
                                         </button>
                                     </div>
-                                    <!-- Modal body -->
+                          
                                     <form class="p-4 md:p-5">
                                         <div class="grid gap-4 mb-4 grid-cols-2 pb-5">
                                             <div class="col-span-2 w-3/4 m-auto mt-3">
@@ -656,18 +668,16 @@
                         </div>
                     </div>
                 </div>
-                <!-- <div class="w-40 h-40 mt-5 border border-gray-900 rounded-md">
-                    <img src="" alt="item preview">
-                </div> -->
+              
             </div>
-        </fieldset>
+        </fieldset> -->
 
-        <div id="extralarge-modal" tabindex="-1"
+        <!-- <div id="extralarge-modal" tabindex="-1"
             class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
             <div class="relative w-full max-w-7xl max-h-full">
-                <!-- Modal content -->
+               
                 <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                    <!-- Modal header -->
+                   
                     <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                         <h3 class="text-xl font-medium text-gray-900 dark:text-white">
                             BOM Form
@@ -683,7 +693,7 @@
                             <span class="sr-only">Close modal</span>
                         </button>
                     </div>
-                    <!-- Modal body -->
+                    
                     <div class="p-4 md:p-5 space-y-4">
                         <div class="flex gap-x-4">
                             <form class="w-full p-3">
@@ -932,7 +942,7 @@
                             </form>
                         </div>
                     </div>
-                    <!-- Modal footer -->
+                
                     <div
                         class="flex items-center p-4 md:p-5 space-x-3 rtl:space-x-reverse border-t border-gray-200 rounded-b dark:border-gray-600">
                         <button data-modal-hide="extralarge-modal" type="button"
@@ -943,10 +953,10 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
 
 
-        <div class="relative overflow-x-auto mt-4 mb-5">
+        <!-- <div class="relative overflow-x-auto mt-4 mb-5">
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 border border-gray-700 ">
                 <thead class="text-xs text-gray-700 whitespace-nowrap uppercase bg-gray-50 border-b border-gray-900">
                     <tr>
@@ -1140,14 +1150,14 @@
                 </tbody>
 
             </table>
-        </div>
+        </div> -->
 
 
-        <center>
+        <!-- <center>
             <button type="button"
                 class="text-white bg-blue-600 hover:bg-blue-700  font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none ">Submit
                 Now</button>
-        </center>
+        </center> -->
 
     </div>
 
@@ -1419,35 +1429,64 @@
         // }
 
 
-        $(document).ready(function () {
-            $('#form_update').submit(function (event) {
-                event.preventDefault(); 
-
-                var formData = $(this).serialize(); // Serialize form data
-
-                $.ajax({
-                    url: './phpAjax/leadSerchModify.php', 
-                    type: 'POST', 
-                    dataType: 'JSON',
-                    data: formData,
-                    success: function (response) {
-                        alert(response.message);
-                    },
-                    error: function (error) {
-                        // alert('Your form was not sent successfully.');
-                        console.log(error)
-                    }
-                });
-            });
-        });
-
-
-
-
     </script>
 
 
     <script src="./leadGnrationSeach.js"></script>
 </body>
+
+
+
+
+<script>
+
+
+
+    $('#addNowBtn').on('click', function (e) {
+        e.preventDefault();
+
+        // alert("Hellow workd")
+        var formData = $('#form_update').serialize();
+
+        $.ajax({
+            url: './phpAJax/leadMiddleAddAjax.php',
+            type: 'POST',
+            dataType: 'JSON',
+            data: formData,
+            success: function (response) {
+                alert(response.message);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    });
+
+
+    $(document).ready(function () {
+        $('#form_update').submit(function (event) {
+            event.preventDefault();
+
+            var formData = $(this).serialize(); // Serialize form data
+
+            $.ajax({
+                url: './phpAjax/leadSerchModify.php',
+                type: 'POST',
+                dataType: 'JSON',
+                data: formData,
+                success: function (response) {
+                    alert(response.message);
+                },
+                error: function (error) {
+                    // alert('Your form was not sent successfully.');
+                    console.log(error)
+                }
+            });
+        });
+    });
+
+
+
+</script>
 
 </html>

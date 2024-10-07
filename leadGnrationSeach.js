@@ -62,7 +62,99 @@ let getUSerDataByUserName = () => {
 
 
 
+
+
+
+
+            let data1 = {
+                getUSerDataByUserName: "getUSerDataByUserName",
+                recordNo: recordNo
+            }
+
+
+            console.log("Here start my code")
+            $.get("./phpAJax/leadSearchAjax.php", data1, function (data) {
+                console.log(data);
+
+
+                let rowData = data.data
+
+                $("#searchTableTbody").html(" ")
+
+                rowData.forEach(row => {
+
+
+
+                    $("#searchTableTbody").append(`
+                                    <tr class="border-b dark:border-gray-700">
+                                    <td class="px-3 py-3 text-center">
+                                        <input type="checkbox" value="" >
+                                    </td>
+                                    <td class="px-6 py-3">
+                                        <input type="number" value="${row.id}" class="w-20">
+                                    </td>
+                                    <td class="px-6 py-3">
+                                        <input type="number" value="${row.record_no}" class="w-20">    
+                                    </td>
+                                    <td class="px-6 py-3">
+                                        <input type="text" value="${row.assigned_to}" class="w-40">    
+                                    </td>
+                                    <td class="px-6 py-3">
+                                        <input type="date" value="${row.query_start_date}">  
+                                    </td>
+                                    <td class="px-6 py-3">
+                                        <input type="text" value="${row.follow_up}" class="w-16">
+                                    </td>
+                                    <td class="px-6 py-3">
+                                        <input type="date" value="${row.followup_reminder_frequency}" >
+                                    </td>
+                                    <td class="px-6 py-3">
+                                        <input type="number" value="${row.no_of_times}" class="w-20">
+                                    </td>
+                                    <td class="px-6 py-3">
+                                        <input type="date" value="${row.query_end_date}">
+                                    </td>
+                                    <td class="px-6 py-3">
+                                        <input type="text" value="${row.installation_required}" class="w-16">              
+                                    </td>
+                                    <td class="px-6 py-3">
+                                        <input type="date" value="${row.tentative_installation}">
+                                    </td>
+                                    <td class="px-6 py-3">
+                                        <input type="date" value="${row.tentative_delivery_date}">
+                                    </td>
+
+                                </tr>`)
+
+
+
+
+                });
+
+
+
+
+
+
+
+            }, "json")
+
+
             console.log(userdata)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         }
