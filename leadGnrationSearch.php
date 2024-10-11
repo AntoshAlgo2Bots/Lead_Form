@@ -1463,71 +1463,69 @@ $result = mysqli_query($conn, $sql);
     });
 
 
+    // $(document).ready(function () {
+    //     $('#form_update').submit(function (event) {
+    //         event.preventDefault();
+
+    //         var formData = $(this).serialize(); // Serialize form data
+
+    //         $.ajax({
+    //             url: './phpAjax/leadSerchModify.php',
+    //             type: 'POST',
+    //             dataType: 'JSON',
+    //             data: formData,
+    //             success: function (response) {
+    //                 alert(response.message);
+    //             },
+    //             error: function (error) {
+    //                 // alert('Your form was not sent successfully.');
+    //                 console.log(error)
+    //             }
+    //         });
+    //     });
+    // });
     $(document).ready(function () {
-        $('#form_update').submit(function (event) {
-            event.preventDefault();
+        $("#updateBtn").on("click", function () {
+            const checkedRowsData = [];
 
-            var formData = $(this).serialize(); // Serialize form data
-
-            $.ajax({
-                url: './phpAjax/leadSerchModify.php',
-                type: 'POST',
-                dataType: 'JSON',
-                data: formData,
-                success: function (response) {
-                    alert(response.message);
-                },
-                error: function (error) {
-                    // alert('Your form was not sent successfully.');
-                    console.log(error)
+            $("#searchTableTbody input[type='checkbox']").each(function () {
+                if ($(this).is(":checked")) {
+                    const row = $(this).closest("tr");
+                    const rowData = {
+                        id: row.find('input[type="number"]').eq(0).val(),
+                        record_no: row.find('input[type="number"]').eq(1).val(),
+                        assigned_to: row.find('input[type="text"]').eq(0).val(),
+                        query_start_date: row.find('input[type="date"]').eq(0).val(),
+                        follow_up: row.find('input[type="text"]').eq(1).val(),
+                        followup_reminder_frequency: row.find('input[type="date"]').eq(1).val(),
+                        no_of_times: row.find('input[type="number"]').eq(2).val(),
+                        query_end_date: row.find('input[type="date"]').eq(1).val(),
+                        installation_required: row.find('input[type="text"]').eq(2).val(),
+                        tentative_installation: row.find('input[type="date"]').eq(2).val(),
+                        tentative_delivery_date: row.find('input[type="date"]').eq(3).val()
+                    };
+                    checkedRowsData.push(rowData);
                 }
             });
+
+            if (checkedRowsData.length > 0) {
+                $.ajax({
+                    url: './phpAJax/leadSerchModify.php', // Replace with your actual PHP script
+                    type: 'POST',
+                    data: { rows: checkedRowsData },
+                    success: function (response) {
+                        alert("Data Updated Successfully");
+                        console.log(response);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            } else {
+                alert("Please select at least one checkbox.");
+            }
         });
     });
-
-
-
-    $("#updateBtn").on("click", function() {
-    const checkedRowsData = [];
-
-    $("#searchTableTbody input[type='checkbox']").each(function() {
-        if ($(this).is(":checked")) {
-            const row = $(this).closest("tr");
-            const rowData = {
-                id: row.find('input[type="number"]').eq(0).val(),
-                record_no: row.find('input[type="number"]').eq(1).val(),
-                assigned_to: row.find('input[type="text"]').eq(0).val(),
-                query_start_date: row.find('input[type="date"]').eq(0).val(),
-                follow_up: row.find('input[type="text"]').eq(1).val(),
-                followup_reminder_frequency: row.find('input[type="date"]').eq(1).val(),
-                no_of_times: row.find('input[type="number"]').eq(2).val(),
-                query_end_date: row.find('input[type="date"]').eq(1).val(),
-                installation_required: row.find('input[type="text"]').eq(2).val(),
-                tentative_installation: row.find('input[type="date"]').eq(2).val(),
-                tentative_delivery_date: row.find('input[type="date"]').eq(3).val()
-            };
-            checkedRowsData.push(rowData);
-        }
-    });
-
-    $.ajax({
-        url: './phpAJax/leadSerchModify.php', // Replace with your actual PHP script
-        type: 'POST',
-        data: { rows: checkedRowsData },
-        success: function(response) {
-            console.log(response);
-        },
-        error: function(xhr, status, error) {
-            console.error(error);
-        }
-    });
-});
-
-
-
-
-
-
 
 
 </script>
