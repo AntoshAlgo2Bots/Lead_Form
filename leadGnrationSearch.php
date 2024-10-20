@@ -131,10 +131,10 @@ $result = mysqli_query($conn, $sql);
                                 class="border mb-4 border-gray-900 text-gray-900 mb-5 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-52 p-1.5"
                                 placeholder="" disabled />
                         </div>
-                        <div>
+                        <!-- <div>
                             <button type="submit"
                                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-8 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Disqualified</button>
-                        </div>
+                        </div> -->
                     </div>
                 </fieldset>
                 <fieldset class="md:w-5/6 border-2 border-gray-300 p-4 rounded-lg mb-5">
