@@ -51,40 +51,46 @@ $result = mysqli_query($conn, $sql);
         const container = document.getElementById("itemRows");
         const row = document.createElement("div");
         row.className = "flex flex-wrap items-center gap-x-5 w-full p-2 rounded-lg mt-2";
-        row.innerHTML = `
-                <div>
+        row.innerHTML = `  <div>
                             <input id="default-checkbox" type="checkbox" value=""
                                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:border-gray-600">
                         </div>
                         <div>
                             <label class="block text-sm">S. No : </label>
-                            <input type="text" name="item_serial_no[]"
+                            <input type="text" name="item_serial_no"
                                 class="w-12 rounded-md border text-xs border-gray-500 bg-white py-2 pl-2 text-[#6B7280] h-6 outline-none focus:border-[#6A64F1] focus:shadow-md"
                                 style="border-color: #C8A1E0;" /><br>
                         </div>
-                        <div>
-                            <label class="block text-sm">Item Name : </label>
-                            <input type="text" name="item_name[]"
-                                class="md:w-32 w-40 rounded-md border text-xs border-gray-500 bg-white py-2 pl-2 text-[#6B7280] h-6 outline-none focus:border-[#6A64F1] focus:shadow-md"
-                                style="border-color: #C8A1E0;" /><br>
+                        <div class="flex items-end gap-x-2">
+                            <div>
+                                <label class="block text-sm">Item Name : </label>
+                                <input type="text" name="item_name" id="item_name"
+                                    class="md:w-32 w-40 rounded-md border text-xs border-gray-500 bg-white py-2 pl-2 text-[#6B7280] h-6 outline-none focus:border-[#6A64F1] focus:shadow-md"
+                                    style="border-color: #C8A1E0;" /><br>
+                            </div>
+                            <div>
+                                <button type="button" id="getPriceBtn"
+                                    class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-1 focus:ring-gray-100 font-medium rounded-lg text-xs px-2 py-1 ">Get
+                                    Price</button>
+                            </div>
                         </div>
                         <div>
                             <label class="block text-sm">Item Qty : </label>
-                            <input type="number" name="item_qty[]"
+                            <input type="number" name="item_qty" id="item_qty"
                                 class="w-24 rounded-md border text-xs border-gray-500 bg-white text-[#6B7280] h-6 outline-none focus:border-[#6A64F1] focus:shadow-md"
-                                style="border-color: #C8A1E0;" /><br>
+                                style="border-color: #C8A1E0;" oninput="calculateTotal()" /><br>
                         </div>
                         <div>
                             <label class="block text-sm">Rate : </label>
-                            <input type="number" name="item_rate[]"
+                            <input type="number" name="item_rate" id="item_rate"
                                 class="w-24 rounded-md border text-xs border-gray-500 bg-white text-[#6B7280] h-6 outline-none focus:border-[#6A64F1] focus:shadow-md"
-                                style="border-color: #C8A1E0;" /><br>
+                                style="border-color: #C8A1E0;" oninput="calculateTotal()" readonly/><br>
                         </div>
                         <div>
                             <label class="block text-sm">Total : </label>
-                            <input type="number" name="item_total[]"
+                            <input type="number" name="item_total" id="item_total"
                                 class="w-28 rounded-md border text-xs border-gray-500 bg-white text-[#6B7280] h-6 outline-none focus:border-[#6A64F1] focus:shadow-md"
-                                style="border-color: #C8A1E0;" /><br>
+                                style="border-color: #C8A1E0;" readonly /><br>
                         </div>
 
                         <div>
@@ -94,30 +100,27 @@ $result = mysqli_query($conn, $sql);
                                 type="button">if Ship another address </button>
                         </div>
                         <div class="w-28 h-24 border border-gray-900 rounded-md">
-                            <img class="w-28 h-24 rounded-md" src="./images.png" alt="image preview">
+                            <img class="w-28 h-24 rounded-md" src="" id="ImagePreview" alt="image preview">
                         </div>
 
                         <div>
                             <label class="block text-sm">SO Number : </label>
-                            <input type="number" name="item_so_number[]"
+                            <input type="number" name="item_so_number"
                                 class="w-24 rounded-md border text-xs border-gray-500 bg-white text-[#6B7280] h-6 outline-none focus:border-[#6A64F1] focus:shadow-md"
                                 style="border-color: #C8A1E0;" /><br>
                         </div>
                         <div>
                             <label class="block text-sm">Created By : </label>
-                            <input type="text" name="item_so_number[]"
+                            <input type="text" name="created_by"
                                 class="w-28 rounded-md border text-xs border-gray-500 bg-white text-[#6B7280] h-6 outline-none focus:border-[#6A64F1] focus:shadow-md"
                                 style="border-color: #C8A1E0;" /><br>
                         </div>
                         <div>
                             <label class="block text-sm">Status : </label>
-                            <input type="text" name="status[]"
+                            <input type="text" name="status" value="SAVE"
                                 class="w-24 rounded-md border text-xs border-gray-500 bg-white text-[#6B7280] h-6 outline-none focus:border-[#6A64F1] focus:shadow-md"
-                                style="border-color: #C8A1E0;" /><br>
+                                style="border-color: #C8A1E0;" readonly/><br>
                         </div>
-                        <div>
-                    <button type="button" onclick="removeRow(this)" class="text-red-600">Remove</button>
-                </div>
             `;
         container.appendChild(row);
     }
@@ -695,11 +698,18 @@ $result = mysqli_query($conn, $sql);
                                 class="w-12 rounded-md border text-xs border-gray-500 bg-white py-2 pl-2 text-[#6B7280] h-6 outline-none focus:border-[#6A64F1] focus:shadow-md"
                                 style="border-color: #C8A1E0;" /><br>
                         </div>
-                        <div>
-                            <label class="block text-sm">Item Name : </label>
-                            <input type="text" name="item_name"
-                                class="md:w-32 w-40 rounded-md border text-xs border-gray-500 bg-white py-2 pl-2 text-[#6B7280] h-6 outline-none focus:border-[#6A64F1] focus:shadow-md"
-                                style="border-color: #C8A1E0;" /><br>
+                        <div class="flex items-end gap-x-2">
+                            <div>
+                                <label class="block text-sm">Item Name : </label>
+                                <input type="text" name="item_name" id="item_name"
+                                    class="md:w-32 w-40 rounded-md border text-xs border-gray-500 bg-white py-2 pl-2 text-[#6B7280] h-6 outline-none focus:border-[#6A64F1] focus:shadow-md"
+                                    style="border-color: #C8A1E0;" /><br>
+                            </div>
+                            <div>
+                                <button type="button" id="getPriceBtn"
+                                    class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-1 focus:ring-gray-100 font-medium rounded-lg text-xs px-2 py-1 ">Get
+                                    Price</button>
+                            </div>
                         </div>
                         <div>
                             <label class="block text-sm">Item Qty : </label>
@@ -711,7 +721,7 @@ $result = mysqli_query($conn, $sql);
                             <label class="block text-sm">Rate : </label>
                             <input type="number" name="item_rate" id="item_rate"
                                 class="w-24 rounded-md border text-xs border-gray-500 bg-white text-[#6B7280] h-6 outline-none focus:border-[#6A64F1] focus:shadow-md"
-                                style="border-color: #C8A1E0;" oninput="calculateTotal()" /><br>
+                                style="border-color: #C8A1E0;" oninput="calculateTotal()" readonly /><br>
                         </div>
                         <div>
                             <label class="block text-sm">Total : </label>
@@ -727,7 +737,7 @@ $result = mysqli_query($conn, $sql);
                                 type="button">if Ship another address </button>
                         </div>
                         <div class="w-28 h-24 border border-gray-900 rounded-md">
-                            <img class="w-28 h-24 rounded-md" src="./images.png" alt="image preview">
+                            <img class="w-28 h-24 rounded-md" src="" id="ImagePreview" alt="image preview">
                         </div>
 
                         <div>
@@ -744,9 +754,9 @@ $result = mysqli_query($conn, $sql);
                         </div>
                         <div>
                             <label class="block text-sm">Status : </label>
-                            <input type="text" name="status"
+                            <input type="text" name="status" value="SAVE"
                                 class="w-24 rounded-md border text-xs border-gray-500 bg-white text-[#6B7280] h-6 outline-none focus:border-[#6A64F1] focus:shadow-md"
-                                style="border-color: #C8A1E0;" /><br>
+                                style="border-color: #C8A1E0;" readonly /><br>
                         </div>
                         <div>
                             <!-- <button
@@ -1333,6 +1343,29 @@ $result = mysqli_query($conn, $sql);
             });
         });
 
+
+        $(document).ready(function () {
+            $('#getPriceBtn').click(function () {
+                var itemName = $('#item_name').val();
+                $.ajax({
+                    url: './phpAJax/getPriceFromItemMaster.php',
+                    type: 'POST',
+                    data: { action: 'get_price', item_name: itemName },
+                    success: function (response) {
+                        console.log(response)
+                        // Set the fetched price into the item_rate input field
+                        $('#item_rate').val(response.price);
+                        $('#ImagePreview').attr('src', './Images/' + response.imagePath);
+                        console.log(response.imagePath)
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        $('#item_rate').val('Error: ' + textStatus);
+                        $('#ImagePreview').val('Error: ' + textStatus);
+                    }
+                });
+            });
+        });
+
     </script>
 
 
@@ -1773,50 +1806,50 @@ $result = mysqli_query($conn, $sql);
 </script> -->
 
 <script>
-$(function () {
+    $(function () {
 
-var availableTags = [
-    "ActionScript",
-    "AppleScript",
-    "Asp",
-    "BASIC",
-    "C",
-    "C++",
-    "Clojure",
-    "COBOL",
-    "ColdFusion",
-    "Erlang",
-    "Fortran",
-    "Groovy",
-    "Haskell",
-    "Java",
-    "JavaScript",
-    "Lisp",
-    "Perl",
-    "PHP",
-    "Python",
-    "Ruby",
-    "Scala",
-    "Scheme"
-];
+        var availableTags = [
+            "ActionScript",
+            "AppleScript",
+            "Asp",
+            "BASIC",
+            "C",
+            "C++",
+            "Clojure",
+            "COBOL",
+            "ColdFusion",
+            "Erlang",
+            "Fortran",
+            "Groovy",
+            "Haskell",
+            "Java",
+            "JavaScript",
+            "Lisp",
+            "Perl",
+            "PHP",
+            "Python",
+            "Ruby",
+            "Scala",
+            "Scheme"
+        ];
 
 
-console.log(availableTags);
-$.get("ajax.php", {
-    "itemCodeInfoForPr": "itemCodeInfoForPr"
-}, function (data) {
+        console.log(availableTags);
+        $.get("ajax.php", {
+            "itemCodeInfoForPr": "itemCodeInfoForPr"
+        }, function (data) {
 
-    availableTags = JSON.parse(data);
+            availableTags = JSON.parse(data);
 
-    console.log(availableTags);
-    $("input[name='item_name']").autocomplete({
-        source: availableTags
+            console.log(availableTags);
+            $("input[name='item_name']").autocomplete({
+                source: availableTags
+            });
+
+
+        })
+
     });
-
-
-})
-
-});
 
 </script>
 
